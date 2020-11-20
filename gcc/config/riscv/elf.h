@@ -32,7 +32,8 @@ along with GCC; see the file COPYING3.  If not see
 #define LIB_SPEC \
 "--start-group -lc %{!specs=nosys.specs:%{!msys-lib=*:-lgloss}} " \
 "%{msys-lib=*: -l%*} " \
-"--end-group"
+"--end-group" \
+  "%{!nostartfiles:%{!nodefaultlibs:%{!nolibc:%{!nostdlib:%:riscv_multi_lib_check()}}}}"
 
 /* -mhal prevents the inclusion of crt* begin/end provided by GCC. An
    alternative startup file may be specified using -msys-crt0=.  */
@@ -45,3 +46,5 @@ along with GCC; see the file COPYING3.  If not see
 
 #undef  ENDFILE_SPEC
 #define ENDFILE_SPEC "%{!mhal:crtend%O%s}"
+
+#define RISCV_USE_CUSTOMISED_MULTI_LIB 1
