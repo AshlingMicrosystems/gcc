@@ -90,9 +90,6 @@ struct macro_arg_saved_data {
   node_type type;
 };
 
-static const char *vaopt_paste_error =
-  N_("'##' cannot appear at either end of __VA_OPT__");
-
 static void expand_arg (cpp_reader *, macro_arg *);
 
 /* A class for tracking __VA_OPT__ state while iterating over a
@@ -181,7 +178,7 @@ class vaopt_state {
 	if (m_state == 2 && token->type == CPP_PASTE)
 	  {
 	    cpp_error_at (m_pfile, CPP_DL_ERROR, token->src_loc,
-			  vaopt_paste_error);
+			  N_("'##' cannot appear at either end of __VA_OPT__"));
 	    return ERROR;
 	  }
 	/* Advance states before further considering this token, in
@@ -210,7 +207,7 @@ class vaopt_state {
 		if (was_paste)
 		  {
 		    cpp_error_at (m_pfile, CPP_DL_ERROR, token->src_loc,
-				  vaopt_paste_error);
+				  N_("'##' cannot appear at either end of __VA_OPT__"));
 		    return ERROR;
 		  }
 
@@ -3476,8 +3473,6 @@ static cpp_macro *
 create_iso_definition (cpp_reader *pfile)
 {
   bool following_paste_op = false;
-  const char *paste_op_error_msg =
-    N_("'##' cannot appear at either end of a macro expansion");
   unsigned int num_extra_tokens = 0;
   unsigned nparms = 0;
   cpp_hashnode **params = NULL;
@@ -3602,7 +3597,8 @@ create_iso_definition (cpp_reader *pfile)
 	     function-like macros, but not at the end.  */
 	  if (following_paste_op)
 	    {
-	      cpp_error (pfile, CPP_DL_ERROR, paste_op_error_msg);
+	      cpp_error (pfile, CPP_DL_ERROR,
+			 N_("'##' cannot appear at either end of a macro expansion"));
 	      goto out;
 	    }
 	  if (!vaopt_tracker.completed ())
@@ -3617,7 +3613,8 @@ create_iso_definition (cpp_reader *pfile)
 	     function-like macros, but not at the beginning.  */
 	  if (macro->count == 1)
 	    {
-	      cpp_error (pfile, CPP_DL_ERROR, paste_op_error_msg);
+	      cpp_error (pfile, CPP_DL_ERROR,
+			 N_("'##' cannot appear at either end of a macro expansion"));
 	      goto out;
 	    }
 

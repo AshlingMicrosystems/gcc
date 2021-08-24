@@ -802,28 +802,42 @@ cpp_classify_number (cpp_reader *pfile, const cpp_token *token,
 
       if ((result & CPP_N_WIDTH) == CPP_N_LARGE
 	  && CPP_OPTION (pfile, cpp_warn_long_long))
-        {
-          const char *message = CPP_OPTION (pfile, cplusplus) 
-				? N_("use of C++11 long long integer constant")
-		                : N_("use of C99 long long integer constant");
-
-	  if (CPP_OPTION (pfile, c99))
-            cpp_warning_with_line (pfile, CPP_W_LONG_LONG, virtual_location,
-				   0, message);
-          else
-            cpp_pedwarning_with_line (pfile, CPP_W_LONG_LONG,
-				      virtual_location, 0, message);
-        }
+	{
+	  if (CPP_OPTION (pfile, cplusplus))
+	    {
+	      if (CPP_OPTION (pfile, c99))
+		cpp_warning_with_line (pfile, CPP_W_LONG_LONG, virtual_location,
+				       0, N_("use of C++11 long long integer constant"));
+	      else
+		cpp_pedwarning_with_line (pfile, CPP_W_LONG_LONG,
+					  virtual_location, 0,
+					  N_("use of C++11 long long integer constant"));
+	    }
+	  else
+	    {
+	      if (CPP_OPTION (pfile, c99))
+		cpp_warning_with_line (pfile, CPP_W_LONG_LONG, virtual_location,
+				       0, N_("use of C99 long long integer constant"));
+	      else
+		cpp_pedwarning_with_line (pfile, CPP_W_LONG_LONG,
+					  virtual_location, 0,
+					  N_("use of C99 long long integer constant"));
+	    }
+	}
 
       if ((result & CPP_N_SIZE_T) == CPP_N_SIZE_T
 	  && !CPP_OPTION (pfile, size_t_literals))
-       {
-	  const char *message = (result & CPP_N_UNSIGNED) == CPP_N_UNSIGNED
-				? N_("use of C++23 %<size_t%> integer constant")
-				: N_("use of C++23 %<make_signed_t<size_t>%> integer constant");
-	  cpp_warning_with_line (pfile, CPP_W_SIZE_T_LITERALS,
-				 virtual_location, 0, message);
-       }
+	{
+	  /* FIXME: warning: unknown conversion type character ‘<’ in format ??? */
+	  if ((result & CPP_N_UNSIGNED) == CPP_N_UNSIGNED)
+	    cpp_warning_with_line (pfile, CPP_W_SIZE_T_LITERALS,
+				   virtual_location, 0,
+				   N_("use of C++23 %<size_t%> integer constant"));
+	  else
+	    cpp_warning_with_line (pfile, CPP_W_SIZE_T_LITERALS,
+				   virtual_location, 0,
+				   N_("use of C++23 %<make_signed_t<size_t>%> integer constant"));
+	}
 
       result |= CPP_N_INTEGER;
     }
