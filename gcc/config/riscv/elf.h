@@ -25,12 +25,23 @@ along with GCC; see the file COPYING3.  If not see
 %{shared}"
 
 /* Link against Newlib libraries, because the ELF backend assumes Newlib.
-   Handle the circular dependence between libc and libgloss. */
+   Handle the circular dependence between libc and libgloss.
+   -msys-lib= specifies an additional system library to link against which
+   replaces libgloss.  */
 #undef  LIB_SPEC
-#define LIB_SPEC "--start-group -lc %{!specs=nosys.specs:-lgloss} --end-group"
+#define LIB_SPEC \
+"--start-group -lc %{!specs=nosys.specs:%{!msys-lib=*:-lgloss}}" \
+"%{msys-lib=*: -l%*}" \
+"--end-group"
 
+/* -mhal prevents the inclusion of crt* begin/end provided by GCC. An
+   alternative startup file may be specified using -msys-crt0=.  */
 #undef  STARTFILE_SPEC
-#define STARTFILE_SPEC "crt0%O%s crtbegin%O%s"
+#define STARTFILE_SPEC \
+"%{mhal:" \
+"%{msys-crt0=*:%*} %{!msys-crt0=*:crt0%O%s}" \
+"%{msys-crt0=:%eYou need a C startup file for -msys-crt0=};" \
+":crt0%O%s crtbegin%O%s}"
 
 #undef  ENDFILE_SPEC
-#define ENDFILE_SPEC "crtend%O%s"
+#define ENDFILE_SPEC "%{!mhal:crtend%O%s}"
