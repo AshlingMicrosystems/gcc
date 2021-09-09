@@ -258,3 +258,15 @@ Set the version of RISC-V ISA spec.
 minline-atomics
 Target Var(TARGET_INLINE_SUBWORD_ATOMIC) Init(1)
 Always inline subword atomic operations.
+
+msys-lib=
+Target RejectNegative Joined Var(niosv_sys_lib_str)
+Name of system library to link against for niosv.
+
+msys-crt0=
+Target RejectNegative Joined Var(niosv_sys_crt0_str)
+Name of the startup file for niosv.
+
+mhal
+Target RejectNegative
+Indicates link with HAL BSP for niosv.
