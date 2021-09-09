@@ -211,3 +211,15 @@ Enum(isa_spec_class) String(20191213) Value(ISA_SPEC_CLASS_20191213)
 misa-spec=
 Target RejectNegative Joined Enum(isa_spec_class) Var(riscv_isa_spec) Init(TARGET_DEFAULT_ISA_SPEC)
 Set the version of RISC-V ISA spec.
+
+msys-lib=
+Target RejectNegative Joined Var(niosv_sys_lib_str)
+Name of system library to link against for niosv.
+
+msys-crt0=
+Target RejectNegative Joined Var(niosv_sys_crt0_str)
+Name of the startup file for niosv.
+
+mhal
+Target RejectNegative
+Indicates link with HAL BSP for niosv.
