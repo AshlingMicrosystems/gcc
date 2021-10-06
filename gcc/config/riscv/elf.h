@@ -30,17 +30,17 @@ along with GCC; see the file COPYING3.  If not see
    replaces libgloss.  */
 #undef  LIB_SPEC
 #define LIB_SPEC \
-"--start-group -lc %{!specs=nosys.specs:%{!msys-lib=*:-lgloss}}" \
-"%{msys-lib=*: -l%*}" \
+"--start-group -lc %{!specs=nosys.specs:%{!msys-lib=*:-lgloss}} " \
+"%{msys-lib=*: -l%*} " \
 "--end-group"
 
 /* -mhal prevents the inclusion of crt* begin/end provided by GCC. An
    alternative startup file may be specified using -msys-crt0=.  */
 #undef  STARTFILE_SPEC
 #define STARTFILE_SPEC \
-"%{mhal:" \
-"%{msys-crt0=*:%*} %{!msys-crt0=*:crt0%O%s}" \
-"%{msys-crt0=:%eYou need a C startup file for -msys-crt0=};" \
+"%{mhal: " \
+"%{msys-crt0=*:%*} %{!msys-crt0=*:crt0%O%s} " \
+"%{msys-crt0=:%eYou need a C startup file for -msys-crt0=}; " \
 ":crt0%O%s crtbegin%O%s}"
 
 #undef  ENDFILE_SPEC
