@@ -197,7 +197,12 @@ collect_execute (const char *prog, char **argv, const char *outname,
 	  fatal_error (input_location, "%s: %m", _(errmsg));
 	}
       else
-	fatal_error (input_location, errmsg);
+	{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
+	  fatal_error (input_location, errmsg);
+#pragma GCC diagnostic pop
+	}
     }
 
   free (response_arg);

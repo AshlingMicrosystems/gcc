@@ -1584,7 +1584,10 @@ run_gcc (unsigned argc, char *argv[])
       const char *jobserver_error = jobserver_active_p ();
       if (jobserver && jobserver_error != NULL)
 	{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	  warning (0, jobserver_error);
+#pragma GCC diagnostic pop
 	  parallel = 0;
 	  jobserver = 0;
 	}

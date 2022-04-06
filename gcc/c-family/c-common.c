@@ -6356,11 +6356,19 @@ c_parse_error (const char *gmsgid, enum cpp_ttype token_type,
       message = NULL;
     }
   else
-    error_at (richloc, gmsgid);
+    {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
+      error_at (richloc, gmsgid);
+#pragma GCC diagnostic pop
+    }
 
   if (message)
     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
       error_at (richloc, message);
+#pragma GCC diagnostic pop
       free (message);
     }
 #undef catenate_messages
