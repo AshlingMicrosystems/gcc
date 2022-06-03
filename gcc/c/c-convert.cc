@@ -81,7 +81,10 @@ c_convert (tree type, tree expr, bool init_const)
   if ((invalid_conv_diag
        = targetm.invalid_conversion (TREE_TYPE (expr), type)))
     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
       error (invalid_conv_diag);
+#pragma GCC diagnostic pop
       return error_mark_node;
     }
 

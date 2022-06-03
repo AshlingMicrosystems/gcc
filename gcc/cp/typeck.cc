@@ -5031,7 +5031,12 @@ cp_build_binary_op (const op_location_t &location,
        = targetm.invalid_binary_op (code, type0, type1)))
     {
       if (complain & tf_error)
-	error (invalid_op_diag);
+	{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
+	  error (invalid_op_diag);
+#pragma GCC diagnostic pop
+	}
       return error_mark_node;
     }
 
@@ -6998,7 +7003,12 @@ cp_build_unary_op (enum tree_code code, tree xarg, bool noconvert,
 				   TREE_TYPE (arg))))
     {
       if (complain & tf_error)
-	error (invalid_op_diag);
+	{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
+	  error (invalid_op_diag);
+#pragma GCC diagnostic pop
+	}
       return error_mark_node;
     }
 
