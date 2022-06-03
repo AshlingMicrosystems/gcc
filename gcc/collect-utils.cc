@@ -44,7 +44,10 @@ notice (const char *cmsgid, ...)
   va_list ap;
 
   va_start (ap, cmsgid);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
   vfprintf (stderr, _(cmsgid), ap);
+#pragma GCC diagnostic pop
   va_end (ap);
 }
 
@@ -234,7 +237,12 @@ collect_execute (const char *prog, char **argv, const char *outname,
 	  fatal_error (input_location, "%s: %m", _(errmsg));
 	}
       else
-	fatal_error (input_location, errmsg);
+	{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
+	  fatal_error (input_location, errmsg);
+#pragma GCC diagnostic pop
+	}
     }
 
   free (response_arg);

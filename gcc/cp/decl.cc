@@ -3581,7 +3581,12 @@ check_previous_goto_1 (tree decl, cp_binding_level* level, tree names,
 	    complained = identify_goto (decl, input_location, locus, DK_ERROR);
 	  identified = 2;
 	  if (complained)
-	    inform (loc, inf);
+	    {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
+	      inform (loc, inf);
+#pragma GCC diagnostic pop
+	    }
 	}
     }
 
