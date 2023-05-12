@@ -2196,9 +2196,12 @@ checksum-options:
 libgcc-support: libgcc.mvars stmp-int-hdrs $(TCONFIG_H) \
 	$(MACHMODE_H) version.h
 
+SPECLESS_GCC_CFLAGS=$(filter-out --specs=%, $(GCC_CFLAGS))
+
 libgcc.mvars: config.status Makefile specs xgcc$(exeext)
 	: > tmp-libgcc.mvars
-	echo GCC_CFLAGS = '$(GCC_CFLAGS)' >> tmp-libgcc.mvars
+	echo FULL_GCC_CFLAGS = '$(GCC_CFLAGS)' >> tmp-libgcc.mvars
+	echo GCC_CFLAGS = '$(SPECLESS_GCC_CFLAGS)' >> tmp-libgcc.mvars
 	echo INHIBIT_LIBC_CFLAGS = '$(INHIBIT_LIBC_CFLAGS)' >> tmp-libgcc.mvars
 	echo TARGET_SYSTEM_ROOT = '$(TARGET_SYSTEM_ROOT)' >> tmp-libgcc.mvars
 	if test @enable_default_pie@ = yes; then \
