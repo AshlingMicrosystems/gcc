@@ -2033,7 +2033,10 @@ cxx_eval_assert (const constexpr_ctx *ctx, tree arg, const char *msg,
 
 	  /* Report the error. */
 	  auto_diagnostic_group d;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	  error_at (cloc, msg);
+#pragma GCC diagnostic pop
 	  diagnose_failing_condition (bad, cloc, true, ctx);
 	  return bad;
 	}

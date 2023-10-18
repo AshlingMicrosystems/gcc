@@ -1366,7 +1366,10 @@ print_lto_docs_link ()
   if (print_url)
     pp_end_url (&pp);
   pp_string (&pp, " for more information");
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
   inform (UNKNOWN_LOCATION, pp_formatted_text (&pp));
+#pragma GCC diagnostic pop
 }
 
 /* Test that a make command is present and working, return true if so.  */
@@ -1968,7 +1971,10 @@ cont:
 	  jobserver_info jinfo;
 	  if (jobserver_requested && !jinfo.is_active)
 	    {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	      warning (0, jinfo.error_msg.c_str ());
+#pragma GCC diagnostic pop
 	      print_lto_docs_link ();
 	    }
 	  else if (parallel == 0)

@@ -817,6 +817,8 @@ cpp_classify_number (cpp_reader *pfile, const cpp_token *token,
 				? N_("use of C++11 long long integer constant")
 		                : N_("use of C99 long long integer constant");
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	  if (CPP_OPTION (pfile, c99))
             cpp_warning_with_line (pfile, CPP_W_LONG_LONG, virtual_location,
 				   0, message);
@@ -824,6 +826,7 @@ cpp_classify_number (cpp_reader *pfile, const cpp_token *token,
             cpp_pedwarning_with_line (pfile, CPP_W_LONG_LONG,
 				      virtual_location, 0, message);
         }
+#pragma GCC diagnostic pop
 
       if ((result & CPP_N_SIZE_T) == CPP_N_SIZE_T
 	  && !CPP_OPTION (pfile, size_t_literals))
@@ -831,8 +834,11 @@ cpp_classify_number (cpp_reader *pfile, const cpp_token *token,
 	  const char *message = (result & CPP_N_UNSIGNED) == CPP_N_UNSIGNED
 				? N_("use of C++23 %<size_t%> integer constant")
 				: N_("use of C++23 %<make_signed_t<size_t>%> integer constant");
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	  cpp_warning_with_line (pfile, CPP_W_SIZE_T_LITERALS,
 				 virtual_location, 0, message);
+#pragma GCC diagnostic pop
        }
 
       result |= CPP_N_INTEGER;

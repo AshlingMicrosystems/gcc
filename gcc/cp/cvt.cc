@@ -724,7 +724,10 @@ ocp_convert (tree type, tree expr, int convtype, int flags,
        = targetm.invalid_conversion (TREE_TYPE (expr), type)))
     {
       if (complain & tf_error)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	error (invalid_conv_diag);
+#pragma GCC diagnostic pop
       return error_mark_node;
     }
 

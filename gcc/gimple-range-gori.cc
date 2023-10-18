@@ -315,7 +315,10 @@ range_def_chain::dump (FILE *f, basic_block bb, const char *prefix)
       bitmap chain = (has_def_chain (name) ? get_def_chain (name) : NULL);
       if (chain && !bitmap_empty_p (chain))
 	{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	  fprintf (f, prefix);
+#pragma GCC diagnostic pop
 	  print_generic_expr (f, name, TDF_SLIM);
 	  fprintf (f, " : ");
 

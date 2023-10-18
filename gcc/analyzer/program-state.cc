@@ -1419,7 +1419,10 @@ static void
 log_set_of_svalues (logger *logger, const char *name,
 		    const svalue_set &set)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
   logger->log (name);
+#pragma GCC diagnostic pop
   logger->inc_indent ();
   auto_vec<const svalue *> sval_vecs (set.elements ());
   for (svalue_set::iterator iter = set.begin ();

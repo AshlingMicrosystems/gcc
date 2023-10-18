@@ -277,7 +277,12 @@ print_vn_reference_ops (FILE *outfile, const vec<vn_reference_op_s> ops)
       if (vro->op0 || vro->opcode == CALL_EXPR)
 	{
 	  if (!vro->op0)
-	    fprintf (outfile, internal_fn_name ((internal_fn)vro->clique));
+	    {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
+	      fprintf (outfile, internal_fn_name ((internal_fn)vro->clique));
+#pragma GCC diagnostic pop
+	    }
 	  else
 	    print_generic_expr (outfile, vro->op0);
 	  if (vro->op1)

@@ -520,7 +520,10 @@ coro_promise_type_found_p (tree fndecl, location_t loc)
 	      has_ret_val = OVL_FIRST (has_ret_val);
 	      message = "%<return_value%> first declared here";
 	    }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	  inform (DECL_SOURCE_LOCATION (has_ret_val), message);
+#pragma GCC diagnostic pop
 	  coro_info->coro_co_return_error_emitted = true;
 	  return false;
 	}

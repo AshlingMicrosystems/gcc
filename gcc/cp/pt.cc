@@ -20436,7 +20436,10 @@ tsubst_copy_and_build (tree t,
 				     &error_msg,
 				     input_location);
 	if (error_msg)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	  error (error_msg);
+#pragma GCC diagnostic pop
 	if (identifier_p (decl))
 	  {
 	    if (complain & tf_error)

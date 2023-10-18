@@ -2232,7 +2232,10 @@ fancy_abort (const char *file, int line, const char *function)
   if (global_dc->printer == NULL)
     {
       /* Print the error message.  */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
       fnotice (stderr, diagnostic_kind_text[DK_ICE]);
+#pragma GCC diagnostic pop
       fnotice (stderr, "in %s, at %s:%d", function, trim_filename (file), line);
       fputc ('\n', stderr);
 

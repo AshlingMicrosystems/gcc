@@ -182,8 +182,11 @@ class vaopt_state {
       {
 	if (m_state == 2 && token->type == CPP_PASTE)
 	  {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	    cpp_error_at (m_pfile, CPP_DL_ERROR, token->src_loc,
 			  vaopt_paste_error);
+#pragma GCC diagnostic pop
 	    return ERROR;
 	  }
 	/* Advance states before further considering this token, in
@@ -211,8 +214,11 @@ class vaopt_state {
 
 		if (was_paste)
 		  {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 		    cpp_error_at (m_pfile, CPP_DL_ERROR, token->src_loc,
 				  vaopt_paste_error);
+#pragma GCC diagnostic pop
 		    return ERROR;
 		  }
 
@@ -3701,7 +3707,10 @@ create_iso_definition (cpp_reader *pfile)
 	     function-like macros, but not at the end.  */
 	  if (following_paste_op)
 	    {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	      cpp_error (pfile, CPP_DL_ERROR, paste_op_error_msg);
+#pragma GCC diagnostic pop
 	      goto out;
 	    }
 	  if (!vaopt_tracker.completed ())
@@ -3716,7 +3725,10 @@ create_iso_definition (cpp_reader *pfile)
 	     function-like macros, but not at the beginning.  */
 	  if (macro->count == 1)
 	    {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	      cpp_error (pfile, CPP_DL_ERROR, paste_op_error_msg);
+#pragma GCC diagnostic pop
 	      goto out;
 	    }
 
